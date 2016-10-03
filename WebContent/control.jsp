@@ -15,7 +15,7 @@
 					<h1 class="text-center title">Control</h1>
 				</header>
 			</div>
-			<div class="row text-center flip-clock-wrapper">
+			<div class="row text-center inner">
 				<div class="pull-left ">
 					<span class="settings-head">Total Time</span>
 					<h5 class="text-center">
@@ -45,10 +45,10 @@
 				</div>
 			    <fieldset>
 			        <textarea class="form-control" id="messageWindow" rows="3" cols="50" readonly="true"></textarea><br>
-			        <div class=pull-left>
+			        <div class="row col-xs-10">
 			        	<input class="form-control" id="inputMessage" type="text"/>
 			        </div>
-			        <div class=pull-right>
+			        <div class="pull-right">
 			        	<input class="btn btn-round color-1 material-design" type="submit" value="send" onclick="send()" />
 			        </div>
 			    </fieldset>
