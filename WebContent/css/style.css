@@ -47,16 +47,15 @@ font-weight: bold;
   color: #FFF;!important
 }
 .flip-clock-wrapper{
-  height: auto !important;
   margin: 0 auto!important;
   display: block;
 }
 .flip-clock-label{
-color: #FFF !important;
+color: #0000 !important;
 }
 .clock-header {
     font-family: Lato, sans-serif;
-     font-size: 20px;
+     font-size: 30px;
      padding-bottom: 10px!important;
      text-align: center;
      display: inline-block;
@@ -88,9 +87,37 @@ button{
     width: 40%;
     margin: 0 auto; 
 }
-.clock-size {padding-bottom: 5%;}
-.clock-size ul {width: 40px;height: 78px;margin: 0 2px;}
-.clock-size ul li {line-height: 78px;}
-.clock-size ul li a div div.inn {border-radius: 3px;font-size: 50px;}
+.clock-size {padding: 3%;}
+.clock-size ul {width: 40px;height: 50px;margin: 0 2px;}
+.clock-size ul li {line-height: 50px;}
+.clock-size ul li a div div.inn {border-radius: 3px;font-size: 20px;}
 .clock-size ul li a div.down {border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;}
 .clock-size ul li a div.up:after {top: 38px;height: 2px;}
+.clock-size .flip-clock-dot.top {top: 30px;}
+.clock-size .flip-clock-dot.bottom {bottom: 80px;}
+
+.input-form {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.clock-height{
+	height: 30px;
+}
+
+.div-padding{
+ padding-top:5%;
+ padding-bottom:5%
+}

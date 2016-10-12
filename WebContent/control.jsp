@@ -15,43 +15,51 @@
 					<h1 class="text-center title">Control</h1>
 				</header>
 			</div>
-			<div class="row text-center inner">
-				<div class="pull-left ">
-					<span class="settings-head">Total Time</span>
-					<h5 class="text-center">
-						<span>&nbsp;<button id="removeTotal">-</button></span>
-						<span class="durationvalue" id="totalValue">25</span> 
-						<span>&nbsp;<button id="addTotal">+</button></span>
-					</h5>
+			<div class="row text-center">
+				<div>
+					<button class="btn-success" id="setSwitch" onclick="set()">SET</button>
+					<button class="btn-primary" id="onSwitch" onclick="pushSwitch(this.id)">START</button>
+					<button class="btn-danger" id="offSwitch" onclick="pushSwitch(this.id)">STOP</button>
+					<button class="btn-warning" id="resetSwitch" onclick="pushSwitch(this.id)">RESET</button>
 				</div>
-				<div class="pull-right">
-					<span class="settings-head">Part Time</span>
-					<h5 class="text-center">
-						<span>&nbsp;<button id="removePart">-</button></span>
-						<span class="durationvalue" id="partValue">5</span>
-						<span>&nbsp;<button id="addPart">+</button></span>
-					</h5>
-				</div>		
-				<div class="controls">
-					<button class="btn-sm btn-success" id="setSwitch" onclick="set()">SET</button>
-					<button class="btn-sm btn-primary" id="onTotalSwitch" onclick="pushSwitch(this.id)">Total START</button>
-					<button class="btn-sm btn-info" id="onPartSwitch" onclick="pushSwitch(this.id)">Part START</button>
-					<button class="btn-sm btn-warning" id="offSwitch" onclick="pushSwitch(this.id)">STOP</button>
-					<button class="btn-sm btn-danger" id="resetSwitch" onclick="pushSwitch(this.id)">RESET</button><br><br>
-					<button class="btn-sm btn-default" id="1" onclick="sessionTitle(1)">Session 1</button>
-					<button class="btn-sm btn-default" id="2" onclick="sessionTitle(2)">Session 2</button>
-					<button class="btn-sm btn-default" id="3" onclick="sessionTitle(3)">Session 3</button>
-					<button class="btn-sm btn-default" id="4" onclick="sessionTitle(4)">Session 4</button>
+				<div class="col-sm-6 div-padding">
+					<span class="clock-header">Session Time</span>
+					<div class="row text-center flip-clock-wrapper centered clock-size">
+						<button id="removeTotal" onclick="pushSwitch(this.id)"><</button>
+						<div class="totalClock clock-height"></div>
+						<button id="addTotal" onclick="pushSwitch(this.id)">></button>
+					</div>
+					<input type="text" class="durationvalue input-form" id="totalValue" value="10" size="4">minutes
+					<button class="btn-success" id="setTotalSwitch" onclick="set(this.id)">SET</button>
+					<button class="btn-primary" id="onTotalSwitch" onclick="pushSwitch(this.id)">START</button>
+					<button class="btn-danger" id="offTotalSwitch" onclick="pushSwitch(this.id)">STOP</button>
+					<button class="btn-warning" id="resetTotalSwitch" onclick="pushSwitch(this.id)">RESET</button>
 				</div>
-			    <fieldset>
-			        <textarea class="form-control" id="messageWindow" rows="3" cols="50" readonly="true"></textarea><br>
-			        <div class="row col-xs-10">
-			        	<input class="form-control" id="inputMessage" type="text"/>
-			        </div>
-			        <div class="pull-right">
-			        	<input class="btn btn-round color-1 material-design" type="submit" value="send" onclick="send()" />
-			        </div>
-			    </fieldset>
+				<div class="col-sm-6 div-padding">
+					<span class="clock-header">Speaking Slot</span>
+					<div class="row text-center flip-clock-wrapper centered clock-size">
+						<button id="removePart" onclick="pushSwitch(this.id)"><</button>
+						<div class="partClock clock-height"></div>
+						<button id="addPart" onclick="pushSwitch(this.id)">></button>
+					</div>
+					<input type="text" class="durationvalue input-form" id="partValue" value="5" size="4">minutes
+					<button class="btn-success" id="setPartSwitch" onclick="set(this.id)">SET</button>		
+					<button class="btn-primary" id="onPartSwitch" onclick="pushSwitch(this.id)">START</button>
+					<button class="btn-danger" id="offPartSwitch" onclick="pushSwitch(this.id)">STOP</button>
+					<button class="btn-warning" id="resetPartSwitch" onclick="pushSwitch(this.id)">RESET</button>
+				</div>
+				<div>
+					<div class="controls"></div>
+				    <fieldset>
+				        <textarea class="form-control" id="messageWindow" rows="3" cols="50" readonly="true"></textarea><br>
+				        <div class="row col-xs-10">
+				        	<input class="form-control" id="inputMessage" type="text"/>
+				        </div>
+				        <div class="pull-right">
+				        	<input class="btn btn-round color-1 material-design" type="submit" value="send" onclick="send()" />
+				        </div>
+				    </fieldset>
+			    </div>
 			</div>
 		</div>
 		<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -100,52 +108,28 @@
 			    		}
 		    	webSocket.send(JSON.stringify(value));
 		    }
-		    function set() {
-		        var totalValue = $("#totalValue").html();
-		        var partValue = $("#partValue").html();
-		    	var value = {
-		    		key: "setting",
-		    		totalTime: totalValue,
-		    		partTime: partValue
-		    	}
-		        webSocket.send(JSON.stringify(value));
-		    }
-		    function sessionTitle(session) {
+		    function set(id) {
 		    	var value;
-		    	switch (session) {
-		    	  case 1:
-	    		  	value = {
-			    		key: "sessiontext",
-			    		sessiontitle: "session1 title",
-			    		sessiontime: 25
+		        var totalValue = $("#totalValue").val();
+		        var partValue = $("#partValue").val();
+		    	switch (id) {
+		    	  case "setTotalSwitch":
+			    	value = {
+			    		key: id,
+			    		time: totalValue
 			    	}
 		    	    break;
-		    	  case 2: 
-	    		  	value = {
-			    		key: "sessiontext",
-			    		sessiontitle: "session2 title",
-			    		sessiontime: 30
-			    	}  
-	    		 	break;
-		    	  case 3:
-	    		  	value = {
-			    		key: "sessiontext",
-			    		sessiontitle: "session3 title",
-			    		sessiontime: 35
-			    	}  
-	    		 	break;
-		    	  case 4:
-	    		  	value = {
-			    		key: "sessiontext",
-			    		sessiontitle: "session4 title",
-			    		sessiontime: 40
-			    	}  
+		    	  case "setPartSwitch": 
+			    	value = {
+			    		key: id,
+			    		time: partValue
+			    	}
 	    		 	break;
 		    	  default:
 	    		  	value = {
-			    		key: "sessiontext",
-			    		sessiontitle: "session title",
-			    		sessiontime: 25
+			    		key: "setting",
+			    		totalTime: totalValue,
+			    		partTime: partValue
 			    	}  
 	    		 	break;
 		    	}

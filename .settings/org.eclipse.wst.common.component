@@ -2,7 +2,7 @@
     <wb-module deploy-name="Timer">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="Timer"/>
         <property name="java-output-path" value="/Timer/build/classes"/>
+        <property name="context-root" value="Timer"/>
     </wb-module>
 </project-modules>
