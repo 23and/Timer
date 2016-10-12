@@ -1,160 +1,163 @@
-$(document).ready(function(){
-$("button").addClass("btn");
-  var totalClock;
-  var partClock;
-  var totalValue;
-  var partValue;
-  var audio = new Audio('http://scambuster.info/audio/time_up.wav');
+$(document)
+		.ready(
+				function() {
+					$("button").addClass("btn");
+					var totalClock;
+					var partClock;
+					var totalValue;
+					var partValue;
+					var audio = new Audio('http://scambuster.info/audio/time_up.wav');
 
-  partValue = parseInt($("#partValue").val() * 60);
-  totalValue = parseInt($("#totalValue").val() * 60);
+					partValue = parseInt($("#partValue").val() * 60);
+					totalValue = parseInt($("#totalValue").val() * 60);
 
-  totalClock = $('.totalClock').FlipClock(totalValue,{
-		       clockFace: "HourlyCounter",
-           autoStart: false,
-           countdown: true,
-           callbacks: {
-            start: function(){
-              $(".totalTimeLabel").addClass("text-success");
-            },
-             
-             stop: function(){
-              $(".totalTimeLabel").removeClass("text-success");
-            },
-        
-            interval: function(){
-              var totalTime = totalClock.getTime().time;
-              var textarea = document.getElementById("messageWindow");
-            }
-           }
- });
+					totalClock = $('.totalClock')
+							.FlipClock(totalValue,{
+										clockFace : "HourlyCounter",
+										autoStart : false,
+										countdown : true,
+										callbacks : {
+											start : function() {
+												$(".totalTimeLabel").addClass("text-success");
+											},
 
-  partClock = $('.partClock').FlipClock(partValue,{
-      clockFace: "HourlyCounter",
-  autoStart: false,
-  countdown: true,
-  callbacks: {
-   start: function(){
-     $(".partTimeLabel").addClass("text-success");
-   },
-    
-    stop: function(){
-     $(".partTimeLabel").removeClass("text-success");
-   },
+											stop : function() {
+												$(".totalTimeLabel").removeClass("text-success");
+											},
 
-   interval: function(){
-       var partTime = partClock.getTime().time;
-       var textarea = document.getElementById("messageWindow");
-       if(partTime === (parseInt($("#partValue").val() * 60))/2){
-      	  textarea.style.color="Red";
-      	  textarea.value = "Now you have 1 mintue. Please conclude your speech.";
-        }
-       if(partTime === 60){
-     	  textarea.style.color="Red";
-     	  textarea.value = "Now you have 1 mintue. Please conclude your speech.";
-       }
-       if(partTime === 0){
-    	   textarea.style.color="#555";
-      	  textarea.value = "Now time is up. Please end your speech for another speakers.";
-        }
-   }
-  }
- });
+											interval : function() {
+												var totalTime = totalClock.getTime().time;
+												var textarea = document.getElementById("messageWindow");
+											}
+										}
+									});
 
-  $("#onSwitch").click(function(){
-      totalClock.setTime(parseInt($("#totalValue").val() * 60));
-      partClock.setTime(parseInt($("#partValue").val() * 60));
-      audio.play();
-      totalClock.start();
-      partClock.start();
-  })
-  
- $("#onTotalSwitch").click(function(){
-      totalClock.setTime(parseInt($("#totalValue").val() * 60));
-      audio.play();
-      totalClock.start();
-  })
-  
- $("#onPartSwitch").click(function(){
-	 partClock.setTime(parseInt($("#partValue").val() * 60));
-     audio.play();
-     partClock.start();
-  })
-  
- $("#setSwitch").click(function(){
-	 totalClock.setTime(parseInt($("#totalValue").val() * 60));
-	 partClock.setTime(parseInt($("#partValue").val() * 60));
-  })  
-  
-  $("#setTotalSwitch").click(function(){
-	 totalClock.setTime(parseInt($("#totalValue").val() * 60));
-  })  
-  
- $("#setPartSwitch").click(function(){
-	 partClock.setTime(parseInt($("#partValue").val() * 60));
-  })  
-  
- $("#offSwitch").click(function(){
-	 	 totalClock.stop();
-         partClock.stop();
- })
- 
-  $("#offTotalSwitch").click(function(){
-	 	 totalClock.stop();
- })
- 
-  $("#offPartSwitch").click(function(){
-         partClock.stop();
- })
+					partClock = $('.partClock')
+							.FlipClock(partValue,{
+										clockFace : "HourlyCounter",
+										autoStart : false,
+										countdown : true,
+										callbacks : {
+											start : function() {
+												$(".partTimeLabel").addClass("text-success");},
 
- $("#resetSwitch").click(function(){
- totalClock.stop();
- partClock.stop();
- totalClock.setTime(parseInt($("#totalValue").val() * 60));
- partClock.setTime(parseInt($("#partValue").val() * 60));
+											stop : function() {
+												$(".partTimeLabel").removeClass("text-success");
+											},
 
- })
-  $("#resetTotalSwitch").click(function(){
- totalClock.stop();
- totalClock.setTime(parseInt($("#totalValue").val() * 60));
- })
- 
-  $("#resetPartSwitch").click(function(){
- partClock.stop();
- partClock.setTime(parseInt($("#partValue").val() * 60));
- })
-
-  $("#addTotal").click(function(){
-  totalValue = parseInt($("#totalValue").val());
-  $("#totalValue").val(totalValue + 1);
-  totalClock.setTime(parseInt($("#totalValue").val()) * 60);
-})
-  
-  $("#removeTotal").click(function(){
-  totalValue = parseInt($("#totalValue").val());
-  $("#totalValue").val(totalValue - 1);
-    if(totalValue === 1){
-      $("#totalValue").val(1);
-  }
-  totalClock.setTime(parseInt($("#totalValue").val()) * 60);
-
-})
-
-  $("#addPart").click(function(){
-  partValue = parseInt($("#partValue").val());
-  $("#partValue").val(partValue + 1);
-  partClock.setTime(parseInt($("#partValue").val()) * 60);
-
-})
-  
-  $("#removePart").click(function(){
-  partValue = parseInt($("#partValue").val());
-  $("#partValue").val(partValue - 1);
-  if(partValue === 1){
-      $("#partValue").val(1);
-  }
-  partClock.setTime(parseInt($("#partValue").val()) * 60);
-
-});
-
-});
+											interval : function() {
+												var partTime = partClock.getTime().time;
+												var textarea = document.getElementById("messageWindow");
+												if (partTime === (parseInt($("#partValue").val() * 60)) / 2) {
+													textarea.style.color = "Red";
+													textarea.value = "Now you spent the half of your time";
+													setTimeout('$.text()',10000);
+												}
+												if (partTime === 60) {
+													textarea.style.color = "Red";
+													textarea.value = "Now you have 1 mintue. Please conclude your speech.";
+												}
+												if (partTime === 0) {
+													textarea.style.color = "#555";
+													textarea.value = "Now time is up. Please end your speech for another speakers.";
+												}
+											}
+										}
+									});
+					$.text = function() {
+						textarea.style.color = "#555";
+						textarea.value = "";
+					}
+					$.start = function(id) {
+						switch (id) {
+						case "onSwitch":
+							audio.play();
+							totalClock.start();
+							partClock.start();
+							break;
+						case "onTotalSwitch":
+							audio.play();
+							totalClock.start();
+							break;
+						case "onPartSwitch":
+							audio.play();
+							partClock.start();
+							break;
+						}
+					}
+					$.stop = function(id){
+						switch (id) {
+						case "offSwitch":
+							totalClock.stop();
+							partClock.stop();
+							break;
+						case "offTotalSwitch":
+							totalClock.stop();
+							break;
+						case "offPartSwitch":
+							partClock.stop();
+							break;
+						}
+					}
+					$.reset = function(id){
+						switch (id) {
+						case "resetSwitch":
+							totalClock.stop();
+							partClock.stop();
+							totalClock.setTime(parseInt($("#totalValue").val() * 60));
+							partClock.setTime(parseInt($("#partValue").val() * 60));
+							break;
+						case "resetTotalSwitch":
+							totalClock.stop();
+							totalClock.setTime(parseInt($("#totalValue").val() * 60));
+							break;
+						case "resetPartSwitch":
+							partClock.stop();
+							partClock.setTime(parseInt($("#partValue").val() * 60));
+							break;
+						}
+					}
+					$.timeControl = function(state, section){
+						var value = "#" + section + "Value";
+						var clock;
+						if(section=="total"){
+							clock = totalClock;
+						}else if(section=="part"){
+							clock = partClock;
+						}
+						switch(state){
+						case "add":
+							temp = parseInt($(value).val());
+							$(value).val(temp + 1);
+							clock.setTime(parseInt($(value).val()) * 60);
+							break;
+						case "remove":
+							temp = parseInt($(value).val());
+							$(value).val(temp - 1);
+							if (temp === 1) {
+								$(value).val(1);
+							}
+							clock.setTime(parseInt($(value).val()) * 60);
+							break;
+						}
+					}
+					$.set = function(id, totalValue, partValue) {
+						var value;
+						switch (id) {
+						case "setTotalSwitch":
+							$("#totalValue").val(totalValue);
+							totalClock.setTime(parseInt(totalValue * 60));
+							break;
+						case "setPartSwitch":
+							$("#partValue").val(partValue);
+							partClock.setTime(parseInt(partValue * 60));
+							break;
+						default:
+							$("#totalValue").val(totalValue);
+							$("#partValue").val(partValue);
+							totalClock.setTime(parseInt(totalValue * 60));
+							partClock.setTime(parseInt(partValue * 60));
+							break;
+						}
+					}
+				});

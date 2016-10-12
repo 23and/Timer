@@ -17,36 +17,36 @@
 			</div>
 			<div class="row text-center">
 				<div>
-					<button class="btn-success" id="setSwitch" onclick="set()">SET</button>
-					<button class="btn-primary" id="onSwitch" onclick="pushSwitch(this.id)">START</button>
-					<button class="btn-danger" id="offSwitch" onclick="pushSwitch(this.id)">STOP</button>
-					<button class="btn-warning" id="resetSwitch" onclick="pushSwitch(this.id)">RESET</button>
+					<button class="btn-success" id="setSwitch" onclick="pushSet('set', this.id); $.set(this.id, $('#totalValue').val(), $('#partValue').val())">SET</button>
+					<button class="btn-primary" id="onSwitch" onclick="pushSwitch('start', this.id); $.start(this.id);">START</button>
+					<button class="btn-danger" id="offSwitch" onclick="pushSwitch('stop', this.id); $.stop(this.id);">STOP</button>
+					<button class="btn-warning" id="resetSwitch" onclick="pushSwitch('reset', this.id); $.reset(this.id);">RESET</button>
 				</div>
 				<div class="col-sm-6 div-padding">
 					<span class="clock-header">Session Time</span>
 					<div class="row text-center flip-clock-wrapper centered clock-size">
-						<button id="removeTotal" onclick="pushSwitch(this.id)"><</button>
+						<button id="removeTotal" onclick="pushSwitch('remove', 'total'); $.timeControl('remove', 'total')"><</button>
 						<div class="totalClock clock-height"></div>
-						<button id="addTotal" onclick="pushSwitch(this.id)">></button>
+						<button id="addTotal" onclick="pushSwitch('add', 'total'); $.timeControl('add', 'total')">></button>
 					</div>
 					<input type="text" class="durationvalue input-form" id="totalValue" value="10" size="4">minutes
-					<button class="btn-success" id="setTotalSwitch" onclick="set(this.id)">SET</button>
-					<button class="btn-primary" id="onTotalSwitch" onclick="pushSwitch(this.id)">START</button>
-					<button class="btn-danger" id="offTotalSwitch" onclick="pushSwitch(this.id)">STOP</button>
-					<button class="btn-warning" id="resetTotalSwitch" onclick="pushSwitch(this.id)">RESET</button>
+					<button class="btn-success" id="setTotalSwitch" onclick="pushSet('set', this.id); $.set(this.id, $('#totalValue').val()), 0">SET</button>
+					<button class="btn-primary" id="onTotalSwitch" onclick="pushSwitch('start', this.id); $.start(this.id);">START</button>
+					<button class="btn-danger" id="offTotalSwitch" onclick="pushSwitch('stop', this.id); $.stop(this.id);">STOP</button>
+					<button class="btn-warning" id="resetTotalSwitch" onclick="pushSwitch('reset', this.id); $.reset(this.id);">RESET</button>
 				</div>
 				<div class="col-sm-6 div-padding">
 					<span class="clock-header">Speaking Slot</span>
 					<div class="row text-center flip-clock-wrapper centered clock-size">
-						<button id="removePart" onclick="pushSwitch(this.id)"><</button>
+						<button id="removePart" onclick="pushSwitch('remove', 'part'); $.timeControl('remove', 'part')"><</button>
 						<div class="partClock clock-height"></div>
-						<button id="addPart" onclick="pushSwitch(this.id)">></button>
+						<button id="addPart" onclick="pushSwitch('add', 'part'); $.timeControl('add', 'part')">></button>
 					</div>
 					<input type="text" class="durationvalue input-form" id="partValue" value="5" size="4">minutes
-					<button class="btn-success" id="setPartSwitch" onclick="set(this.id)">SET</button>		
-					<button class="btn-primary" id="onPartSwitch" onclick="pushSwitch(this.id)">START</button>
-					<button class="btn-danger" id="offPartSwitch" onclick="pushSwitch(this.id)">STOP</button>
-					<button class="btn-warning" id="resetPartSwitch" onclick="pushSwitch(this.id)">RESET</button>
+					<button class="btn-success" id="setPartSwitch" onclick="pushSet('set', this.id); $.set(this.id, 0, $('#partValue').val())">SET</button>		
+					<button class="btn-primary" id="onPartSwitch" onclick="pushSwitch('start', this.id); $.start(this.id);">START</button>
+					<button class="btn-danger" id="offPartSwitch" onclick="pushSwitch('stop', this.id); $.stop(this.id);">STOP</button>
+					<button class="btn-warning" id="resetPartSwitch" onclick="pushSwitch('reset', this.id); $.reset(this.id);">RESET</button>
 				</div>
 				<div>
 					<div class="controls"></div>
@@ -93,7 +93,7 @@
 		        textarea.value = "message : " + inputMessage.value + "\n";
     		  	value = {
 			    		key: "message",
-			    		text: inputMessage.value
+			    		value: inputMessage.value
 			    		}
 		    	webSocket.send(JSON.stringify(value));
 		        inputMessage.value = "";
@@ -101,39 +101,44 @@
 	        function disconnect(){
 	            webSocket.close();
 	        }
-
-		    function pushSwitch(id){
-    		  	value = {
-			    		key: id
-			    		}
-		    	webSocket.send(JSON.stringify(value));
-		    }
-		    function set(id) {
+	        
+		    function pushSet(state, id) {
 		    	var value;
 		        var totalValue = $("#totalValue").val();
 		        var partValue = $("#partValue").val();
 		    	switch (id) {
 		    	  case "setTotalSwitch":
 			    	value = {
-			    		key: id,
-			    		time: totalValue
+			    		key: state,
+			    		value: id,
+			    		totalTime: totalValue
 			    	}
 		    	    break;
 		    	  case "setPartSwitch": 
 			    	value = {
-			    		key: id,
-			    		time: partValue
+			    		key: state,
+			    		value: id,
+			    		partTime: partValue
 			    	}
 	    		 	break;
 		    	  default:
 	    		  	value = {
-			    		key: "setting",
+			    		key: state,
+			    		value: id,
 			    		totalTime: totalValue,
 			    		partTime: partValue
 			    	}  
 	    		 	break;
 		    	}
 		        webSocket.send(JSON.stringify(value));
+		    }
+		    
+		    function pushSwitch(state, id){
+    		  	value = {
+			    	key: state,
+			    	value: id
+			    	}
+		    	webSocket.send(JSON.stringify(value));
 		    }
 	  </script>
 	</body>

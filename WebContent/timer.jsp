@@ -26,37 +26,11 @@
 					<div class="partClock"></div>
 				</div> 
 			</div>
-			<div class="row col-lg-6 col-lg-offset-3 text-center" style= "visibility:hidden">
-				<div class="pull-left ">
-					<span class="settings-head">Total</span>
-					<h5 class="text-center">
-						<input type="text" class="durationvalue" id="totalValue" value="10">
-					</h5>
-				</div>
-				<div class="pull-right">
-					<span class="settings-head">Part</span>
-					<h5 class="text-center">
-						<input type="text" class="durationvalue" id="partValue" value="5">
-					</h5>
-				</div>
-			</div>
 			<textarea class="form-control text-size text-center" id="messageWindow" rows="2" cols="50" readonly="true"></textarea>
-		    <button id="onSwitch" style= "visibility:hidden"></button>
-		    <button id="onTotalSwitch" style= "visibility:hidden"></button>
-		    <button id="onPartSwitch" style= "visibility:hidden"></button>
-			<button id="offSwitch" style= "visibility:hidden"></button>
-			<button id="offTotalSwitch" style= "visibility:hidden"></button>
-			<button id="offPartSwitch" style= "visibility:hidden"></button>
-			<button id="resetSwitch" style= "visibility:hidden"></button>
-			<button id="resetTotalSwitch" style= "visibility:hidden"></button>
-			<button id="resetPartSwitch" style= "visibility:hidden"></button>
-			<button id="setSwitch" style= "visibility:hidden"></button>
-			<button id="setTotalSwitch" style= "visibility:hidden"></button>
-			<button id="setPartSwitch" style= "visibility:hidden"></button>
-			<button id="removeTotal" style= "visibility:hidden"> </button>
-			<button id="addTotal" style= "visibility:hidden"></button>
-			<button id="removePart" style= "visibility:hidden"> </button>
-			<button id="addPart" style= "visibility:hidden"></button>
+		    <div style="visibility:hidden">
+				<input type="text" class="durationvalue" id="totalValue" value="10">
+				<input type="text" class="durationvalue" id="partValue" value="5">
+			</div>
 		</div>
 	
 		<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -77,67 +51,32 @@
 		    };
 		    function onMessage(event) {
 		    	var key = (JSON.parse(event.data)).key;
+		    	var value = (JSON.parse(event.data)).value;
 		    	switch (key){
-					 case "onSwitch":
-		    		  	  document.getElementById(key).click();
-			    	    break;
-			    	  case "offSwitch": 
-			    		  document.getElementById(key).click();	
-		    		 	break;
-			    	  case "resetSwitch": 
-			    		  document.getElementById(key).click();	
-		    		 	break;
-					 case "onTotalSwitch":
-		    		  	  document.getElementById(key).click();
-			    	    break;
-			    	  case "offTotalSwitch": 
-			    		  document.getElementById(key).click();	
-		    		 	break;
-			    	  case "resetTotalSwitch": 
-			    		  document.getElementById(key).click();	
-		    		 	break;	
-			    	  case "onPartSwitch":
-			    		  document.getElementById(key).click();	
-		    		 	break;
-			    	  case "offPartSwitch":
-			    		  document.getElementById(key).click();
-		    		 	break;
-			    	  case "resetPartSwitch":
-			    		  document.getElementById(key).click();
-		    		 	break;
-			    	  case "removeTotal":
-			    		  document.getElementById(key).click();
-		    		 	break;
-			    	  case "addTotal":
-			    		  document.getElementById(key).click();
-		    		 	break;
-			    	  case "removePart":
-			    		  document.getElementById(key).click();
-		    		 	break;
-			    	  case "addPart":
-			    		  document.getElementById(key).click();
-		    		 	break;	
-			    	  case "setting":
-				    		var totalTime = parseInt((JSON.parse(event.data)).totalTime);
-				    		var partTime = parseInt((JSON.parse(event.data)).partTime);
-				    		$("#totalValue").val(totalTime);	
-				    		$("#partValue").val(partTime);
-				    		document.getElementById("setSwitch").click();
-		    		 	break;
-			    	  case "setTotalSwitch":
-				    		var time = parseInt((JSON.parse(event.data)).time);
-				    		$("#totalValue").val(time);	
-				    		document.getElementById("setTotalSwitch").click();
-		    		 	break;
-			    	  case "setPartSwitch":
-				    		var time = parseInt((JSON.parse(event.data)).time);
-				    		$("#partValue").val(time);
-				    		document.getElementById("setPartSwitch").click();
-		    		 	break;			    		 	
-			    	  case "message":
-					    	textarea.value = (JSON.parse(event.data)).text;
-		    		 	break;
-		    	}
+		    	  case "set":
+				    	var totalValue = (JSON.parse(event.data)).totalTime;
+				    	var partValue = (JSON.parse(event.data)).partTime;
+			    		$.set(value, totalValue, partValue);
+	    		 	break;	    		 	
+		    	  case "message":
+				    	textarea.value = (JSON.parse(event.data)).value;
+	    		 	break;
+		    	  case "start":
+		    		  $.start(value);
+		    		  break;
+		    	  case "stop":
+		    		  $.stop(value);
+		    		  break;
+		    	  case "reset":
+		    		  $.reset(value);
+		    		  break;
+		    	  case "remove":
+		    		  $.timeControl(key, value);
+		    		  break;
+		    	  case "add":
+		    		  $.timeControl(key, value);
+		    		  break;
+	    		}
 		    }
 		    function onOpen(event) {
 		        textarea.value = "connect\n";
