@@ -1,7 +1,6 @@
 # Timer
 🕔 control and timer
-![control](https://github.com/23and/Timer/blob/master/etc/img_control.png?raw=true)
-![timer](https://github.com/23and/Timer/blob/master/etc/img_timer.png?raw=true)
+![timer](https://github.com/23and/Timer/blob/master/etc/img.png?raw=true)
 ###Objective
 - To keep the assigned time strictly and manage effectively & efficiently
 - To encourage speakers to keep the time strictly and enable moderator to manage session time properly 
