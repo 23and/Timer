@@ -38,11 +38,13 @@ For convenience of organizer, the controller show the current remained session t
 In case organizer needs to increase or decrease the time for session promptly, the controller has the button to plus/minus the time. This change will be applied into ‘Timer Display’ immediately.
 
 ######Setting
-- Action Buttons 
-SET: It is a button for saving the time after the time change for a setting.
-START: It is a button for starting the timer
-STOP: It pauses the current time
-RESET: It returns all time setting to default value
+- Action Buttons
+````
+- SET: It is a button for saving the time after the time change for a setting.
+- START: It is a button for starting the timer
+- STOP: It pauses the current time
+- RESET: It returns all time setting to default value
+````
 - List of message
 It shows the list of message that the administrator has sent before.
 - Text box & send button
