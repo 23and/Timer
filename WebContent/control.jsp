@@ -66,8 +66,9 @@
 		<script src='js/flipclock.js'></script>
 		<script src="js/index.js"></script>
 		<script type="text/javascript">
+			var host = location.host
 	        var textarea = document.getElementById("messageWindow");
-	        var webSocket = new WebSocket('ws://localhost:8080/Timer/Control');
+	        var webSocket = new WebSocket('ws://' + host + '/Timer/Control');
 	        var inputMessage = document.getElementById('inputMessage');
 	        var breakvalue = $("#breakvalue").html();
 		    webSocket.onerror = function(event) {

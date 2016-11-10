@@ -37,8 +37,9 @@
 		<script src='js/flipclock.js'></script>
 		<script src="js/index.js"></script>
 		<script type="text/javascript">
+			var host = location.host
 	        var textarea = document.getElementById("messageWindow");
-	        var webSocket = new WebSocket('ws://localhost:8080/Timer/Timer');
+	        var webSocket = new WebSocket('ws://' + host + '/Timer/Timer');
 	        var inputMessage = document.getElementById('inputMessage');
 		    webSocket.onerror = function(event) {
 		      onError(event)

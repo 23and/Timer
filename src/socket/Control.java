@@ -1,11 +1,13 @@
 package socket;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -26,7 +28,8 @@ public class Control {
 			}
 	        try {
 	            // open websocket
-	            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://localhost:8080/Timer/Timer"));
+	        	System.out.println(InetAddress.getLocalHost().getHostAddress());
+	            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + InetAddress.getLocalHost().getHostName() + ":8080"  + "/Timer/Timer"));
 	            // add listener
 	            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
 	                public void handleMessage(String message) {
