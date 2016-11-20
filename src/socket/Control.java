@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,35 +18,34 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/Control")
 public class Control {
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
+	WebsocketClientEndpoint clientEndPoint = null;
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException {
-		System.out.println(message);
 		synchronized (clients) {
 			for (Session client : clients) {
 				if (!client.equals(session)) {
-					//client.getBasicRemote().sendText(message);
 				}
 			}
-	        try {
-	            // open websocket
-	        	System.out.println(InetAddress.getLocalHost().getHostAddress());
-	            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + InetAddress.getLocalHost().getHostName() + ":8080"  + "/Timer/Timer"));
-	            // add listener
-	            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
-	                public void handleMessage(String message) {
-	                    System.out.println(message);
-	                }
-	            });
-	            clientEndPoint.sendMessage(message);
-	            //Thread.sleep(5000);
-	        } catch (URISyntaxException ex) {
-	            System.err.println("URISyntaxException exception: " + ex.getMessage());
-	        }
+	        //System.out.println(InetAddress.getLocalHost().getHostAddress());
+			clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
+			    public void handleMessage(String message) {
+			    }
+			});
+			clientEndPoint.sendMessage(message);
 		}
 	}
 
 	@OnOpen
 	public void onOpen(Session session) {
+        try {
+			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + InetAddress.getLocalHost().getHostName() + ":8080"  + "/Timer/Timer"));
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(session);
 		clients.add(session);
 	}
@@ -53,6 +53,6 @@ public class Control {
 	@OnClose
 	public void onClose(Session session) {
 		clients.remove(session);
-		System.out.println("client is now disconnected");
+		System.out.println("control client is now disconnected");
 	}
 }

@@ -12,6 +12,7 @@
 		<div class="container-fluid">
 			<div class="row text-center">
 				<header>
+					<button class="btn-default" onclick="connect()">Connect</button>
 					<h1>Forum Timer</h1><br>
 				</header>
 			</div>
@@ -39,17 +40,20 @@
 		<script type="text/javascript">
 			var host = location.host
 	        var textarea = document.getElementById("messageWindow");
-	        var webSocket = new WebSocket('ws://' + host + '/Timer/Timer');
 	        var inputMessage = document.getElementById('inputMessage');
-		    webSocket.onerror = function(event) {
-		      onError(event)
-		    };
-		    webSocket.onopen = function(event) {
-		      onOpen(event)
-		    };
-		    webSocket.onmessage = function(event) {
-		      onMessage(event)
-		    };
+	        var webSocket;
+	        function connect(){
+		        webSocket = new WebSocket('ws://' + host + '/Timer/Timer');
+			    webSocket.onerror = function(event) {
+				      onError(event)
+			    };
+			    webSocket.onopen = function(event) {
+			      onOpen(event)
+			    };
+			    webSocket.onmessage = function(event) {
+			      onMessage(event)
+			    };
+	        }
 		    function onMessage(event) {
 		    	var key = (JSON.parse(event.data)).key;
 		    	var value = (JSON.parse(event.data)).value;

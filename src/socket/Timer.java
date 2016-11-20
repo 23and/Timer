@@ -16,7 +16,6 @@ public class Timer {
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException {
-		System.out.println(message);
 		synchronized (clients) {
 			for (Session client : clients) {
 				if (!client.equals(session)) {
@@ -35,6 +34,6 @@ public class Timer {
 	@OnClose
 	public void onClose(Session session) {
 		clients.remove(session);
-		System.out.println("client is now disconnected");
+		System.out.println("timer client is now disconnected");
 	}
 }

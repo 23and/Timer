@@ -12,6 +12,7 @@
 		<div class="container">
 			<div class="row">
 				<header>
+					<button class="btn-default" onclick="connect()">Connect</button>
 					<h1 class="text-center title">Control</h1>
 				</header>
 			</div>
@@ -68,18 +69,22 @@
 		<script type="text/javascript">
 			var host = location.host
 	        var textarea = document.getElementById("messageWindow");
-	        var webSocket = new WebSocket('ws://' + host + '/Timer/Control');
 	        var inputMessage = document.getElementById('inputMessage');
 	        var breakvalue = $("#breakvalue").html();
-		    webSocket.onerror = function(event) {
-		      onError(event)
-		    };
-		    webSocket.onopen = function(event) {
-		      onOpen(event)
-		    };
-		    webSocket.onmessage = function(event) {
-		      onMessage(event)
-		    };
+	        var webSocket;
+	        function connect(){
+	        	webSocket = new WebSocket('ws://' + host + '/Timer/Control');
+			    webSocket.onerror = function(event) {
+				      onError(event)
+			    };
+			    webSocket.onopen = function(event) {
+			      onOpen(event)
+			    };
+			    webSocket.onmessage = function(event) {
+			      onMessage(event)
+			    };
+	        }
+
 		    function onMessage(event) {
 		        textarea.value += "Received message : " + event.data + "\n";
 		        document.getElementById("buttonOnOff").click();
